@@ -43,7 +43,7 @@ steps:
     - PORT=80
     - APP_NAME="A PHP Amarcord app deployed via Cloud Build to dev - break me as much as you want!"
     - DEBUG="true"
-    - CODE_REPO="https://github.com/${_GITHUB_USER/app-mod-workshop/"
+    - CODE_REPO="https://github.com/${_GITHUB_USER}/app-mod-workshop/"
     id: Deploy to DEV version
     entrypoint: gcloud
 
@@ -64,7 +64,7 @@ steps:
 #        --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,php-amarcord-github-user=$_GITHUB_USER,devfest-city=$_DEVFEST_CITY
       - '--region=$_DEPLOY_REGION'
       - '--quiet'
-      # Note to self: non va col services..
+      # Note to self: non va col services...
       - '--allow-unauthenticated'
     env: # https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values=
     # copying RAILS_ENV approach.
@@ -72,8 +72,21 @@ steps:
     - PORT=80
     - APP_NAME="A PHP Amarcord app deployed via Cloud Build to PROD - please do not deploy on Fridays!"
     - DEBUG="false"
-    - CODE_REPO="https://github.com/${_GITHUB_USER/app-mod-workshop/"
+    - CODE_REPO="https://github.com/${_GITHUB_USER}/app-mod-workshop/"
     id: Deploy to PROD version
+    entrypoint: gcloud
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    args:
+      - run
+      - services
+      - add-iam-policy-binding
+      - ${_SERVICE_NAME}-prod
+      - --member="allUsers"
+      - --role="roles/run.invoker"
+      - --region=$_DEPLOY_REGION
+      - --quiet
+    id: Allow unauthenticated access to PROD
     entrypoint: gcloud
 
 images:

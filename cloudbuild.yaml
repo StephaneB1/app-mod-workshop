@@ -35,7 +35,7 @@ steps:
 #        --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,php-amarcord-github-user=$_GITHUB_USER,devfest-city=$_DEVFEST_CITY
       - '--region=$_DEPLOY_REGION'
       - '--quiet'
-      # Note to self: non va col services..
+      # Note to self: non va col services...
       - '--allow-unauthenticated'
     env: # https://cloud.google.com/build/docs/configuring-builds/substitute-variable-values=
     # copying RAILS_ENV approach.
@@ -88,8 +88,7 @@ substitutions:
   _PLATFORM: managed
   _SERVICE_NAME: php-amarcord
   _EXECUTION_ENVIRONMENT: 'rgc/cloudbuild'
-  #_GITHUB_USER: Friends-of-Ricc # change your your own, eg 'gregorio'
-  _GITHUB_USER: palladius # change your your own, eg 'gregorio'
+  _GITHUB_USER: stephane
   _DEVFEST_CITY: pescara
 tags:
   - gcp-cloud-build-deploy-cloud-run
